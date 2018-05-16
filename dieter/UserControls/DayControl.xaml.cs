@@ -1,28 +1,43 @@
-﻿using dieter.Models;
-using Dieter.Models;
+﻿using dieter.DialogWindows;
 using dieter.DieterUtils;
+using dieter.Models;
+using Dieter;
+using Dieter.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls.Primitives;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
 
-namespace dieter.DialogWindows
+namespace dieter.UserControls
 {
     /// <summary>
-    /// Logika interakcji dla klasy DayDialog.xaml
+    /// Interaction logic for DayControl.xaml
     /// </summary>
-    public partial class DayDialog : Window
+    public partial class DayControl : UserControl
     {
+
+
         DieterDBM dieterDBM = new DieterDBM();
         IEnumerable<Meal> meals;
         int dayId;
 
-        public DayDialog(int id)
+        public DayControl(int id)
         {
             InitializeComponent();
             dayId = id;
             InitMealsList();
+            RefreshDayNutritionalContents();
             var currentDay = (from dbDay in dieterDBM.Days where dbDay.Id == dayId select dbDay).First();
             titleLabel.DataContext = currentDay;
         }
@@ -31,13 +46,13 @@ namespace dieter.DialogWindows
         {
             dieterDBM = new DieterDBM();
             meals = from meal in dieterDBM.Meals where meal.Day.Id == dayId select meal;
-            mealsListBox.ItemsSource = meals;            
+            mealsListBox.ItemsSource = meals;
         }
 
         private void AddMeal(object sender, RoutedEventArgs e)
         {
             var currentDay = (from dbDay in dieterDBM.Days where dbDay.Id == dayId select dbDay).First();
-            currentDay.Meals.Add(new Meal());            
+            currentDay.Meals.Add(new Meal());
             dieterDBM.SubmitChanges();
             InitMealsList();
         }
@@ -64,10 +79,12 @@ namespace dieter.DialogWindows
 
         private void EditMealClick(object sender, RoutedEventArgs e)
         {
-            int id = Utils.GetIdFromUGrid((UniformGrid)((Button)sender).Parent);   
-            MealDialog mealDialog = new MealDialog(id, dayId);
-            mealDialog.ShowDialog();
+            int id = Utils.GetIdFromUGrid((UniformGrid)((Button)sender).Parent);
+            ((MainWindow)Application.Current.MainWindow).SetMealControl(id, dayId);
+        }
 
+        public void RefreshDayNutritionalContents()
+        {
             dieterDBM = new DieterDBM();
             var currentDay = (from dbDay in dieterDBM.Days where dbDay.Id == dayId select dbDay).First();
             SumNutritionalContents(currentDay);
@@ -87,6 +104,11 @@ namespace dieter.DialogWindows
             SumNutritionalContents(currentDay);
             dieterDBM.SubmitChanges();
             InitMealsList();
+        }
+
+        private void EndClick(object sender, RoutedEventArgs e)
+        {
+            ((MainWindow)Application.Current.MainWindow).SetMainControl();            
         }
     }
 }
