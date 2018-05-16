@@ -1,0 +1,25 @@
+﻿<Window x:Class="dieter.DialogWindows.ProductDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:dieter.DialogWindows"
+        mc:Ignorable="d"
+        Title="ProductDialog" Height="392.144" Width="281.955">
+    <Grid>
+        <Label Content="Nazwa:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="13,39,0,0" RenderTransformOrigin="0.5,0.5"/>
+        <TextBox Text="{Binding Name}" HorizontalAlignment="Left" Height="23" Margin="13,70,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <Label Content="Produkt:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" FontWeight="Bold" FontSize="16"/>
+        <Label Content="Kcal:" HorizontalAlignment="Left" Margin="13,119,0,0" VerticalAlignment="Top"/>
+        <TextBox Text="{Binding Kcal}" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Margin="13,150,0,0"/>
+        <Label Content="Białko:" HorizontalAlignment="Left" Margin="13,178,0,0"  VerticalAlignment="Top"/>
+        <TextBox Text="{Binding Protein}" HorizontalAlignment="Left" Height="23" Margin="13,204,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <Label Content="Tłuszcz:" HorizontalAlignment="Left" Margin="13,232,0,0"  VerticalAlignment="Top"/>
+        <TextBox Text="{Binding Fat}" HorizontalAlignment="Left" Height="23" Margin="13,258,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <CheckBox Content="Sztuki" HorizontalAlignment="Left" Margin="16,98,0,0" VerticalAlignment="Top" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked"/>
+        <Label  Content="Węglowodany:" HorizontalAlignment="Left" Margin="13,286,0,0" VerticalAlignment="Top"/>
+        <TextBox Text="{Binding Carbohydrate}" HorizontalAlignment="Left" Height="23" Margin="13,317,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <Button Content="Zapisz" HorizontalAlignment="Left" Margin="179,317,0,0" VerticalAlignment="Top" Width="75" Click="SaveButtonClick"/>
+
+    </Grid>
+</Window>
