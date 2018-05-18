@@ -12,10 +12,10 @@ namespace dieter.Models
     public class Product
     {
         private int id;
-        private int kcal;
-        private double carbohydrate;
-        private double fat;
-        private double protein;
+        private int? kcal;
+        private double? carbohydrate;
+        private double? fat;
+        private double? protein;
         private int isUnit = 0;
         private String name;
         private EntitySet<ProductMeal> _productMeals;
@@ -38,13 +38,13 @@ namespace dieter.Models
         [Column(IsPrimaryKey =true, IsDbGenerated =true)]
         public int Id { get => id; set => id = value; }
         [Column]
-        public int Kcal { get => kcal; set => kcal = value; }
+        public int? Kcal { get => kcal; set => kcal = value; }
         [Column]
-        public double Carbohydrate { get => carbohydrate; set => carbohydrate = value; }
+        public double? Carbohydrate { get => carbohydrate; set => carbohydrate = value; }
         [Column]
-        public double Fat { get => fat; set => fat = value; }
+        public double? Fat { get => fat; set => fat = value; }
         [Column]
-        public double Protein { get => protein; set => protein = value; }
+        public double? Protein { get => protein; set => protein = value; }
         [Column]
         public int IsUnit { get => isUnit; set => isUnit = value; }
         [Column]

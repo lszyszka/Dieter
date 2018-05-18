@@ -87,14 +87,18 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="DieterUtils\Utils.cs" />
-    <Page Include="DialogWindows\DayDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="DialogWindows\MealDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
+    <Compile Include="UserControls\DayControl.xaml.cs">
+      <DependentUpon>DayControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\MainControl.xaml.cs">
+      <DependentUpon>MainControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\MealControl.xaml.cs">
+      <DependentUpon>MealControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Validators\PatternValidationRule.cs" />
+    <Compile Include="Validators\StringToDoubleValidationRule.cs" />
+    <Compile Include="Validators\StringToIntValidationRule.cs" />
     <Page Include="DialogWindows\ProductDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -106,12 +110,6 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="DialogWindows\DayDialog.xaml.cs">
-      <DependentUpon>DayDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="DialogWindows\MealDialog.xaml.cs">
-      <DependentUpon>MealDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="DialogWindows\ProductDialog.xaml.cs">
       <DependentUpon>ProductDialog.xaml</DependentUpon>
@@ -125,6 +123,18 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="UserControls\DayControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\MainControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\MealControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\Day.cs" />
@@ -197,5 +207,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

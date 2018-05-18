@@ -1,6 +1,7 @@
-﻿using dieter.DieterUtils;
+﻿using dieter.DialogWindows;
+using dieter.DieterUtils;
 using dieter.Models;
-using Dieter.Models;
+using Dieter;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -15,27 +16,29 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace dieter.DialogWindows
+namespace dieter.UserControls
 {
     /// <summary>
-    /// Logika interakcji dla klasy MealDialog.xaml
+    /// Interaction logic for MealControl.xaml
     /// </summary>
-    public partial class MealDialog : Window
+    public partial class MealControl : UserControl
     {
+
         DieterDBM dieterDBM = new DieterDBM();
         IEnumerable<ProductMeal> productMeals;
         IEnumerable<Product> products;
         int mealId;
         int dayId;
 
-        public MealDialog(int id, int day)
+        public MealControl(int id, int day)
         {
             InitializeComponent();
             mealId = id;
             dayId = day;
-            Init();            
+            Init();
         }
 
         private void Init()
@@ -47,8 +50,8 @@ namespace dieter.DialogWindows
         private void InitProductMealsList()
         {
             dieterDBM = new DieterDBM();
-            productMeals = from productMeal in dieterDBM.ProductMeal where productMeal.Meal.Id== mealId select productMeal;
-            productListBox.ItemsSource = productMeals;            
+            productMeals = from productMeal in dieterDBM.ProductMeal where productMeal.Meal.Id == mealId select productMeal;
+            productListBox.ItemsSource = productMeals;
         }
 
         private void InitCombo()
@@ -71,13 +74,13 @@ namespace dieter.DialogWindows
 
         private void AddProductToMeal(double amount)
         {
-            var currentMeal = (from meal in dieterDBM.Meals where meal.Id == mealId select meal).First();            
+            var currentMeal = (from meal in dieterDBM.Meals where meal.Id == mealId select meal).First();
             ProductMeal productMeal = MakeProductMeal(amount);
             currentMeal.ProductMeals.Add(productMeal);
             SumNutritionalContents(currentMeal);
             dieterDBM.SubmitChanges();
             Clear();
-            InitProductMealsList();            
+            InitProductMealsList();
         }
 
         private void Clear()
@@ -89,11 +92,11 @@ namespace dieter.DialogWindows
         private void SumNutritionalContents(Meal meal)
         {
             int sumKcal = 0;
-            double sumProtein=0;
-            double sumFat=0;
-            double sumCarbo=0;
+            double sumProtein = 0;
+            double sumFat = 0;
+            double sumCarbo = 0;
             IEnumerable<ProductMeal> productMeals = meal.ProductMeals;
-            foreach(ProductMeal  productMeal in productMeals)
+            foreach (ProductMeal productMeal in productMeals)
             {
                 sumKcal = sumKcal + productMeal.Kcal;
                 sumProtein = sumProtein + productMeal.Protein;
@@ -103,16 +106,16 @@ namespace dieter.DialogWindows
             meal.Kcal = sumKcal;
             meal.Fat = sumFat;
             meal.Protein = sumProtein;
-            meal.Carbohydrate = sumCarbo;            
+            meal.Carbohydrate = sumCarbo;
         }
-                
+
 
         private ProductMeal MakeProductMeal(Double amount)
         {
             Product product = (Product)productsComboBox.SelectedItem;
             var currentProduct = (from p in dieterDBM.Products where p.Id == product.Id select p).First();
             ProductMeal productMeal = new ProductMeal();
-            if(currentProduct.IsUnit == 1)
+            if (currentProduct.IsUnit == 1)
             {
                 productMeal.Amount = amount;
                 productMeal.Product = currentProduct;
@@ -125,7 +128,7 @@ namespace dieter.DialogWindows
             {
                 productMeal.Amount = amount;
                 productMeal.Product = currentProduct;
-                productMeal.Kcal = Convert.ToInt32(currentProduct.Kcal * (amount/100));
+                productMeal.Kcal = Convert.ToInt32(currentProduct.Kcal * (amount / 100));
                 productMeal.Protein = Convert.ToInt32(currentProduct.Protein * (amount / 100));
                 productMeal.Fat = Convert.ToInt32(currentProduct.Fat * (amount / 100));
                 productMeal.Carbohydrate = Convert.ToInt32(currentProduct.Carbohydrate * (amount / 100));
@@ -145,15 +148,15 @@ namespace dieter.DialogWindows
         private void DeleteProductFromMealClick(object sender, RoutedEventArgs e)
         {
             int id = Utils.GetIdFromUGrid((UniformGrid)((Button)sender).Parent);
-            ProductMeal removedProductMeal = (from productMeal in dieterDBM.ProductMeal where productMeal.Id == id select productMeal).Single();            
+            ProductMeal removedProductMeal = (from productMeal in dieterDBM.ProductMeal where productMeal.Id == id select productMeal).Single();
             dieterDBM.ProductMeal.DeleteOnSubmit(removedProductMeal);
             dieterDBM.SubmitChanges();
 
-            var currentMeal = (from meal in dieterDBM.Meals where meal.Id == mealId select meal).First();            
+            var currentMeal = (from meal in dieterDBM.Meals where meal.Id == mealId select meal).First();
             SumNutritionalContents(currentMeal);
             dieterDBM.SubmitChanges();
             InitProductMealsList();
-            
+
         }
 
         private void DeleteProductClick(object sender, RoutedEventArgs e)
@@ -164,10 +167,16 @@ namespace dieter.DialogWindows
                 dieterDBM.Products.DeleteOnSubmit(product);
                 dieterDBM.SubmitChanges();
                 InitCombo();
-            }catch
+            }
+            catch
             {
                 MessageBox.Show("Produkt jest używany nie można usunąć");
             }
+        }
+
+        private void EndClick(object sender, RoutedEventArgs e)
+        {
+            ((MainWindow)Application.Current.MainWindow).SetDayControl(dayId);
         }
     }
 }

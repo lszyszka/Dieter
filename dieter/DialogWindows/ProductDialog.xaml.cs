@@ -27,6 +27,7 @@ namespace dieter.DialogWindows
         {
             InitializeComponent();
             DataContext = newProduct;
+            NameTB.Focus();
         }
 
         private void CheckBox_Checked(object sender, RoutedEventArgs e)
@@ -41,10 +42,44 @@ namespace dieter.DialogWindows
 
         private void SaveButtonClick(object sender, RoutedEventArgs e)
         {
-            dieterDBM.Products.InsertOnSubmit(newProduct);
-            dieterDBM.SubmitChanges();
-            MessageBox.Show("Dodano product.");
-            DialogResult = true;           
+            if (!HasValidationErrors)
+            {
+                if (HasNull)
+                {
+                    BindingExpression bindingExpression = NameTB.GetBindingExpression(TextBox.TextProperty);
+                    bindingExpression.UpdateSource();
+                    bindingExpression = KcalTB.GetBindingExpression(TextBox.TextProperty);
+                    bindingExpression.UpdateSource();
+                    bindingExpression = CarboTB.GetBindingExpression(TextBox.TextProperty);
+                    bindingExpression.UpdateSource();
+                    bindingExpression = ProteinTB.GetBindingExpression(TextBox.TextProperty);
+                    bindingExpression.UpdateSource();
+                    bindingExpression = FatTB.GetBindingExpression(TextBox.TextProperty);
+                    bindingExpression.UpdateSource();
+                }
+                else
+                {
+                    dieterDBM.Products.InsertOnSubmit(newProduct);
+                    dieterDBM.SubmitChanges();
+                    MessageBox.Show("Dodano product.");
+                    DialogResult = true;
+                }                
+            }
+            else
+            {
+                MessageBox.Show("Błędne dane.");
+            }
+                 
+        }
+
+        private bool HasValidationErrors
+        {
+            get { return Validation.GetHasError(NameTB) || Validation.GetHasError(KcalTB) || Validation.GetHasError(ProteinTB) || Validation.GetHasError(FatTB) || Validation.GetHasError(CarboTB); }
+        }
+
+        private bool HasNull
+        {
+            get { return ((Product)DataContext).Name == null || ((Product)DataContext).Kcal == null || ((Product)DataContext).Protein == null || ((Product)DataContext).Fat == null || ((Product)DataContext).Carbohydrate == null; }
         }
     }
 }

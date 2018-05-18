@@ -17,6 +17,7 @@ using dieter.DialogWindows;
 using dieter.Models;
 using dieter.DieterUtils;
 using Dieter.Models;
+using dieter.UserControls;
 
 namespace Dieter
 {
@@ -25,52 +26,29 @@ namespace Dieter
     /// </summary>
     public partial class MainWindow : Window
     {
-
-        DieterDBM dieterDBM;
-        IEnumerable<Day> days;
         
         public MainWindow()
         {
-            try
-            {
-                InitializeComponent();
-                InitDaysList();
-                dieterDBM = new DieterDBM();
-            }catch(Exception e)
-            {
-                MessageBox.Show("Wyjateczek " + e.Message);
-            }            
+           InitializeComponent();
+            SetMainControl();
         }
 
-        private void EditDayClick(object sender, RoutedEventArgs e)
+        public void SetMainControl()
         {
-            int id = Utils.GetIdFromUGrid((UniformGrid)((Button)sender).Parent);            
-            DayDialog dayDialog = new DayDialog(id);
-            dayDialog.ShowDialog();
-            InitDaysList();
-        }      
-
-        private void InitDaysList()
-        {
-            dieterDBM = new DieterDBM();
-            days = from day in dieterDBM.Days select day;
-            dayListBox.ItemsSource = days;
-        }       
-
-        private void AddDay(object sender, RoutedEventArgs e)
-        {            
-            dieterDBM.Days.InsertOnSubmit(new Day());
-            dieterDBM.SubmitChanges();
-            InitDaysList();            
+            MainGrid.Children.Clear();
+            MainGrid.Children.Add(new MainControl());
         }
 
-        private void DeleteDayClick(object sender, RoutedEventArgs e)
+        public void SetDayControl(int id)
         {
-            int id = Utils.GetIdFromUGrid((UniformGrid)((Button)sender).Parent);
-            var day = (from d in dieterDBM.Days where d.Id == id select d).Single();
-            dieterDBM.Days.DeleteOnSubmit(day);
-            dieterDBM.SubmitChanges();
-            InitDaysList();
+            MainGrid.Children.Clear();
+            MainGrid.Children.Add(new DayControl(id));
+        }
+
+        public void SetMealControl(int id, int dayId)
+        {
+            MainGrid.Children.Clear();
+            MainGrid.Children.Add(new MealControl(id, dayId));
         }
     }
 }
