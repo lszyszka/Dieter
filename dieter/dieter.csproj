@@ -96,6 +96,9 @@
     <Compile Include="UserControls\MealControl.xaml.cs">
       <DependentUpon>MealControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Validators\PatternValidationRule.cs" />
+    <Compile Include="Validators\StringToDoubleValidationRule.cs" />
+    <Compile Include="Validators\StringToIntValidationRule.cs" />
     <Page Include="DialogWindows\ProductDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -204,5 +207,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

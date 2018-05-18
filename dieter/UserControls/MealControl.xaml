@@ -3,14 +3,15 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:dieter.UserControls"
              mc:Ignorable="d" 
              d:DesignHeight="500" d:DesignWidth="800">
-    <Grid Background="White">
-        <Label Content="Posiłek:" FontWeight="Bold"/>
-        <Button Click="AddNewProductClick" Content="+" Margin="0,10,40,0" Width="25" Height="25" HorizontalAlignment="Right" VerticalAlignment="Top"/>
-        <Button Content="X" Margin="0,10,10,0" VerticalAlignment="Top" Click="EndClick" HorizontalAlignment="Right" Width="25" Height="25"/>
-        <UniformGrid Columns="6" Rows="1" HorizontalAlignment="Stretch" Margin="10,44,10,0" Height="22" VerticalAlignment="Top" Background="AliceBlue">
+    <Grid Background="{StaticResource Background}">
+        <Label Content="Posiłek:" FontWeight="Bold" />
+        <Button Click="AddNewProductClick" Content="+" Margin="0,10,40,0" Width="25" Height="25" HorizontalAlignment="Right" VerticalAlignment="Top"
+                Background="{StaticResource ButtonBackground}" BorderBrush="{StaticResource ButtonBorder}" Foreground="White"/>
+        <Button Content="&lt;-" Margin="0,10,10,0" VerticalAlignment="Top" Click="EndClick" HorizontalAlignment="Right" Width="25" Height="25" 
+                Background="{StaticResource ButtonBackground}" BorderBrush="{StaticResource ButtonBorder}" Foreground="White"/>
+        <UniformGrid Columns="6" Rows="1" HorizontalAlignment="Stretch" Margin="10,44,10,0" Height="22" VerticalAlignment="Top" Background="{StaticResource TitleBackground}">
             <TextBlock Text="Nazwa produktu" TextAlignment="Center"/>
             <TextBlock Text="Kalorie" HorizontalAlignment="Center"></TextBlock>
             <TextBlock Text="Białko" HorizontalAlignment="Center"></TextBlock>
@@ -18,10 +19,10 @@
             <TextBlock Text="Węglowodany" HorizontalAlignment="Center"></TextBlock>
             <TextBlock Text="Usuń" HorizontalAlignment="Center"></TextBlock>
         </UniformGrid>
-        <ListBox x:Name="productListBox" Margin="10,71,10,48" HorizontalContentAlignment="Stretch">
+        <ListBox x:Name="productListBox" Margin="10,71,10,48" HorizontalContentAlignment="Stretch" Background="{StaticResource ListBoxBackground}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <UniformGrid Columns="6" Rows="1">
+                    <UniformGrid Columns="6" Rows="1" Height="25">
                         <TextBlock Name="IdTBlock" Visibility="Collapsed" Text="{Binding Id}" HorizontalAlignment="Center"></TextBlock>
                         <TextBlock Text="{Binding Product.Name}"></TextBlock>
                         <TextBlock Text="{Binding Amount}" Visibility="Collapsed" HorizontalAlignment="Center"></TextBlock>
@@ -29,14 +30,16 @@
                         <TextBlock Text="{Binding Protein}" HorizontalAlignment="Center"></TextBlock>
                         <TextBlock Text="{Binding Fat}" HorizontalAlignment="Center"></TextBlock>
                         <TextBlock Text="{Binding Carbohydrate}" HorizontalAlignment="Center"></TextBlock>
-                        <Button Click="DeleteProductFromMealClick" Content="-"></Button>
+                        <Button Click="DeleteProductFromMealClick" Content="-" BorderBrush="{StaticResource ButtonBorder}" Background="{StaticResource ButtonBackground}" Foreground="White"/>
                     </UniformGrid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
         <ComboBox Name="productsComboBox" Margin="10,0,241,18" Height="25" VerticalAlignment="Bottom"/>
-        <TextBox Name="amountTBox" TextWrapping="Wrap" Margin="0,0,135,18" HorizontalAlignment="Right" Width="101" RenderTransformOrigin="0.212,0.631" Height="25" VerticalAlignment="Bottom"/>
-        <Button Content="Dodaj produkt" Margin="0,0,45,18" Click="AddProductButtonClick" HorizontalAlignment="Right" Width="85" Height="25" VerticalAlignment="Bottom"/>
-        <Button Click="DeleteProductClick" Content="-" Margin="0,0,15,18" HorizontalAlignment="Right" Width="25" Height="25" VerticalAlignment="Bottom"/>
+        <TextBox Name="amountTBox" TextWrapping="Wrap" Margin="0,0,135,18" HorizontalAlignment="Right" Width="101" Height="25" VerticalAlignment="Bottom"/>
+        <Button Content="Dodaj produkt" Margin="0,0,45,18" Click="AddProductButtonClick" HorizontalAlignment="Right" Width="85" Height="25" VerticalAlignment="Bottom" 
+                Background="{StaticResource ButtonBackground}" BorderBrush="{StaticResource ButtonBorder}" Foreground="White"/>
+        <Button Click="DeleteProductClick" Content="-" Margin="0,0,15,18" HorizontalAlignment="Right" Width="25" Height="25" VerticalAlignment="Bottom" 
+                Background="{StaticResource ButtonBackground}" BorderBrush="{StaticResource ButtonBorder}" Foreground="White" FontWeight="Bold"/>
     </Grid>
 </UserControl>

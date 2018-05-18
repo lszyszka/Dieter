@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Dieter"
         mc:Ignorable="d"
-        Title="Dieter" Height="550" Width="850" WindowStartupLocation="CenterScreen">
+        Title="Dieter" Height="550" Width="850" WindowStartupLocation="CenterScreen">    
+    
     <Grid Name="MainGrid">       
         
     </Grid>
