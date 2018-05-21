@@ -9,25 +9,25 @@ using System.Windows.Controls;
 
 namespace dieter.Validators
 {
-    class PatternValidationRule : ValidationRule
+    class RegExpValidationRule : ValidationRule
     {
-        String pattern;
-        String error;
+        String regExp;
+        String errorMassage;
 
-        public PatternValidationRule() { }
+        public RegExpValidationRule() { }
 
-        public string Pattern { get => pattern; set => pattern = value; }
-        public string Error { get => error; set => error = value; }
+        public string RegExp { get => regExp; set => regExp = value; }
+        public string ErrorMassage { get => errorMassage; set => errorMassage = value; }
 
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)
         {
             if (value == null || value.ToString().Equals(""))
             {
-                return new ValidationResult(false, "Pole nie może być puste.");
+                return new ValidationResult(false, "Pole jest wymagane.");
             }
-            else if (!Regex.IsMatch(value.ToString(), Pattern))
+            else if (!Regex.IsMatch(value.ToString(), RegExp))
             {
-                return new ValidationResult(false, Error);
+                return new ValidationResult(false, ErrorMassage);
             }
             else
             {

@@ -9,7 +9,7 @@
         Title="ProductDialog" Height="392.144" Width="281.955">
 
     <Window.Resources>
-        <Style x:Key="textBoxInError" TargetType="{x:Type TextBox}">
+        <Style x:Key="textBoxError" TargetType="{x:Type TextBox}">
             <Style.Triggers>
                 <Trigger Property="Validation.HasError" Value="true">
                     <Setter Property="ToolTip"
@@ -23,52 +23,52 @@
     <Grid Background="{StaticResource Background}" >
         <Label Content="Produkt:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" FontWeight="Bold" FontSize="16"/>
         <Label Content="Nazwa:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="13,39,0,0" RenderTransformOrigin="0.5,0.5"/>
-        <TextBox Name="NameTB" HorizontalAlignment="Left" Height="23" Margin="13,70,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Style="{DynamicResource textBoxInError}">
+        <TextBox Name="NameTB" HorizontalAlignment="Left" Height="23" Margin="13,70,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Style="{DynamicResource textBoxError}">
             <TextBox.Text>
                 <Binding Path="Name" UpdateSourceTrigger="LostFocus">
                     <Binding.ValidationRules>
-                        <validators:PatternValidationRule Pattern=".*" Error=""/>
+                        <validators:RegExpValidationRule RegExp=".*" ErrorMassage=""/>
                     </Binding.ValidationRules>
                 </Binding>
             </TextBox.Text>
         </TextBox>
         <Label Content="Kcal:" HorizontalAlignment="Left" Margin="13,119,0,0" VerticalAlignment="Top"/>
-        <TextBox Name="KcalTB" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Margin="13,150,0,0" Style="{DynamicResource textBoxInError}">
+        <TextBox Name="KcalTB" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Margin="13,150,0,0" Style="{DynamicResource textBoxError}">
             <TextBox.Text>
                 <Binding Path="Kcal" UpdateSourceTrigger="LostFocus">
                     <Binding.ValidationRules>
-                        <validators:StringToIntValidationRule Error="Pole kcal jest niepoprawne"/>
+                        <validators:StringToIntValidationRule ErrorMessage="Kalorie muszą być liczbą całkowitą dodatnią"/>
                     </Binding.ValidationRules>
                 </Binding>
             </TextBox.Text>
         </TextBox>
         <Label Content="Białko:" HorizontalAlignment="Left" Margin="13,178,0,0"  VerticalAlignment="Top"/>
-        <TextBox Name="ProteinTB" HorizontalAlignment="Left" Height="23" Margin="13,204,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Style="{DynamicResource textBoxInError}">
+        <TextBox Name="ProteinTB" HorizontalAlignment="Left" Height="23" Margin="13,204,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Style="{DynamicResource textBoxError}">
             <TextBox.Text>
                 <Binding Path="Protein" UpdateSourceTrigger="LostFocus">
                     <Binding.ValidationRules>
-                        <validators:StringToDoubleValidationRule Error="Pole Protein jest niepoprawne"/>
+                        <validators:StringToDoubleValidationRule ErrorMessage="Białko musi być liczbą rzeczywistą dodatnią"/>
                     </Binding.ValidationRules>
                 </Binding>
             </TextBox.Text>
         </TextBox>
         <Label Content="Tłuszcz:" HorizontalAlignment="Left" Margin="13,232,0,0"  VerticalAlignment="Top"/>
-        <TextBox Name="FatTB" HorizontalAlignment="Left" Height="23" Margin="13,258,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Style="{DynamicResource textBoxInError}">
+        <TextBox Name="FatTB" HorizontalAlignment="Left" Height="23" Margin="13,258,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Style="{DynamicResource textBoxError}">
             <TextBox.Text>
                 <Binding Path="Fat" UpdateSourceTrigger="LostFocus">
                     <Binding.ValidationRules>
-                        <validators:StringToDoubleValidationRule Error="Pole Fat jest niepoprawne"/>
+                        <validators:StringToDoubleValidationRule ErrorMessage="Tłuszcz musi być liczbą rzeczywstą dodatnią"/>
                     </Binding.ValidationRules>
                 </Binding>
             </TextBox.Text>
         </TextBox>
         <CheckBox Content="Sztuki" HorizontalAlignment="Left" Margin="16,98,0,0" VerticalAlignment="Top" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked"/>
         <Label  Content="Węglowodany:" HorizontalAlignment="Left" Margin="13,286,0,0" VerticalAlignment="Top"/>
-        <TextBox Name="CarboTB" HorizontalAlignment="Left" Height="23" Margin="13,317,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Style="{DynamicResource textBoxInError}">
+        <TextBox Name="CarboTB" HorizontalAlignment="Left" Height="23" Margin="13,317,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Style="{DynamicResource textBoxError}">
             <TextBox.Text>
                 <Binding Path="Carbohydrate" UpdateSourceTrigger="LostFocus">
                     <Binding.ValidationRules>
-                        <validators:StringToDoubleValidationRule Error="Pole Carbohydrate jest niepoprawne"/>
+                        <validators:StringToDoubleValidationRule ErrorMessage="Węglowodany muszą być liczbą rzeczywistą dodatnią"/>
                     </Binding.ValidationRules>
                 </Binding>
             </TextBox.Text>

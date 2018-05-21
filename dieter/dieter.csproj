@@ -96,7 +96,7 @@
     <Compile Include="UserControls\MealControl.xaml.cs">
       <DependentUpon>MealControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Validators\PatternValidationRule.cs" />
+    <Compile Include="Validators\RegExpValidationRule.cs" />
     <Compile Include="Validators\StringToDoubleValidationRule.cs" />
     <Compile Include="Validators\StringToIntValidationRule.cs" />
     <Page Include="DialogWindows\ProductDialog.xaml">
