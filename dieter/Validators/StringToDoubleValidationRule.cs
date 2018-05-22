@@ -10,33 +10,33 @@ namespace dieter.Validators
 {
     class StringToDoubleValidationRule : ValidationRule
     {
-        String error;
+        String errorMassage;
         public StringToDoubleValidationRule()
         {
         }
 
-        public string Error { get => error; set => error = value; }
+        public string ErrorMessage { get => errorMassage; set => errorMassage = value; }
 
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)
         {
             if (value == null || value.ToString().Equals(""))
             {
-                return new ValidationResult(false, "Pole nie może być puste.");
+                return new ValidationResult(false, "Pole jest wymagane.");
             }
             else if (double.TryParse(value.ToString(), NumberStyles.Any, new CultureInfo("en-US"), out double output))
             {
-                if (output > 0)
+                if (output >= 0)
                 {
                     return new ValidationResult(true, null);
                 }
                 else
                 {
-                    return new ValidationResult(false, Error);
+                    return new ValidationResult(false, ErrorMessage);
                 }
             }
             else
             {
-                return new ValidationResult(false, Error);
+                return new ValidationResult(false, ErrorMessage);
             }
         }
     }
