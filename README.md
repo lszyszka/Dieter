@@ -1,7 +1,7 @@
 # Dieter
 Aplikacja liczy kalorie, białko, tłuszcz i węglowodany spożyte w czasie posiłków.
 
-Skrypt tworzący bazę do aplikacji:
+Baza musi znajdować się w tym samym folderze co plik .exe.
 
 SQL Server 2016 Express LocalDB:
 
@@ -9,6 +9,8 @@ REM Create an instance of LocalDB
 "C:\Program Files\Microsoft SQL Server\130\Tools\Binn\SqlLocalDB.exe" create LocalDBApp2 
 REM Start the instance of LocalDB  
 "C:\Program Files\Microsoft SQL Server\130\Tools\Binn\SqlLocalDB.exe" start LocalDBApp2 
+
+Skrypt tworzący bazę do aplikacji:
 
 USE [master]
 GO
