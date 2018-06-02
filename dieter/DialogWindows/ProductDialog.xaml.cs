@@ -61,7 +61,7 @@ namespace dieter.DialogWindows
                 {
                     dieterDBM.Products.InsertOnSubmit(newProduct);
                     dieterDBM.SubmitChanges();
-                    MessageBox.Show("Dodano product.");
+                    MessageBox.Show("Dodano produkt.");
                     DialogResult = true;
                 }                
             }

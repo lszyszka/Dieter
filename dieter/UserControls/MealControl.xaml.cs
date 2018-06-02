@@ -120,18 +120,18 @@ namespace dieter.UserControls
                 productMeal.Amount = amount;
                 productMeal.Product = currentProduct;
                 productMeal.Kcal = Convert.ToInt32(currentProduct.Kcal * amount);
-                productMeal.Protein = Convert.ToInt32(currentProduct.Protein * amount);
-                productMeal.Fat = Convert.ToInt32(currentProduct.Fat * amount);
-                productMeal.Carbohydrate = Convert.ToInt32(currentProduct.Carbohydrate * amount);
+                productMeal.Protein = Convert.ToDouble(currentProduct.Protein * amount);
+                productMeal.Fat = Convert.ToDouble(currentProduct.Fat * amount);
+                productMeal.Carbohydrate = Convert.ToDouble(currentProduct.Carbohydrate * amount);
             }
             else
             {
                 productMeal.Amount = amount;
                 productMeal.Product = currentProduct;
                 productMeal.Kcal = Convert.ToInt32(currentProduct.Kcal * (amount / 100));
-                productMeal.Protein = Convert.ToInt32(currentProduct.Protein * (amount / 100));
-                productMeal.Fat = Convert.ToInt32(currentProduct.Fat * (amount / 100));
-                productMeal.Carbohydrate = Convert.ToInt32(currentProduct.Carbohydrate * (amount / 100));
+                productMeal.Protein = Convert.ToDouble(currentProduct.Protein * (amount / 100));
+                productMeal.Fat = Convert.ToDouble(currentProduct.Fat * (amount / 100));
+                productMeal.Carbohydrate = Convert.ToDouble(currentProduct.Carbohydrate * (amount / 100));
             }
             return productMeal;
         }
