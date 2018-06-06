@@ -56,7 +56,7 @@ namespace dieter.UserControls
 
         private void InitCombo()
         {
-            products = from product in dieterDBM.Products select product;
+            products = from product in dieterDBM.Products orderby product.Name select product;
             productsComboBox.ItemsSource = products;
         }
 
