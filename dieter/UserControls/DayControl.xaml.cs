@@ -28,7 +28,7 @@ namespace dieter.UserControls
     {
 
 
-        DieterDBM dieterDBM = new DieterDBM();
+        DieterDBM dieterDBM;
         IEnumerable<Meal> meals;
         int dayId;
 
@@ -36,10 +36,16 @@ namespace dieter.UserControls
         {
             InitializeComponent();
             dayId = id;
-            InitMealsList();
             RefreshDayNutritionalContents();
+            InitTitleLabel();
+        }
+
+        private void InitTitleLabel()
+        {
+            dieterDBM = new DieterDBM();
             var currentDay = (from dbDay in dieterDBM.Days where dbDay.Id == dayId select dbDay).First();
             titleLabel.DataContext = currentDay;
+            dieterDBM.Dispose();
         }
 
         private void InitMealsList()
@@ -47,13 +53,16 @@ namespace dieter.UserControls
             dieterDBM = new DieterDBM();
             meals = from meal in dieterDBM.Meals where meal.Day.Id == dayId select meal;
             mealsListBox.ItemsSource = meals;
+            dieterDBM.Dispose();
         }
 
         private void AddMeal(object sender, RoutedEventArgs e)
         {
+            dieterDBM = new DieterDBM();
             var currentDay = (from dbDay in dieterDBM.Days where dbDay.Id == dayId select dbDay).First();
             currentDay.Meals.Add(new Meal());
             dieterDBM.SubmitChanges();
+            dieterDBM.Dispose();
             InitMealsList();
         }
 
@@ -89,6 +98,7 @@ namespace dieter.UserControls
             var currentDay = (from dbDay in dieterDBM.Days where dbDay.Id == dayId select dbDay).First();
             SumNutritionalContents(currentDay);
             dieterDBM.SubmitChanges();
+            dieterDBM.Dispose();
             InitMealsList();
         }
 
@@ -100,9 +110,10 @@ namespace dieter.UserControls
             dieterDBM.Meals.DeleteOnSubmit(removedMeal);
             dieterDBM.SubmitChanges();
 
-            var currentDay = dieterDBM.Days.Single(d => d.Id == dayId);
+            var currentDay = dieterDBM.Days.Single(d => d.Id == dayId);            
             SumNutritionalContents(currentDay);
             dieterDBM.SubmitChanges();
+            dieterDBM.Dispose();
             InitMealsList();
         }
 

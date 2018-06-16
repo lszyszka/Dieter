@@ -4,20 +4,12 @@ using dieter.Models;
 using Dieter;
 using System;
 using System.Collections.Generic;
+using System.Data.Linq;
 using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace dieter.UserControls
 {
@@ -27,9 +19,7 @@ namespace dieter.UserControls
     public partial class MealControl : UserControl
     {
 
-        DieterDBM dieterDBM = new DieterDBM();
-        IEnumerable<ProductMeal> productMeals;
-        IEnumerable<Product> products;
+        DieterDBM dieterDBM;
         int mealId;
         int dayId;
 
@@ -50,14 +40,20 @@ namespace dieter.UserControls
         private void InitProductMealsList()
         {
             dieterDBM = new DieterDBM();
-            productMeals = from productMeal in dieterDBM.ProductMeal where productMeal.Meal.Id == mealId select productMeal;
+            DataLoadOptions loadOptions = new DataLoadOptions();
+            loadOptions.LoadWith<ProductMeal>(PM => PM.Product);
+            dieterDBM.LoadOptions = loadOptions;
+            var productMeals = from productMeal in dieterDBM.ProductMeal where productMeal.Meal.Id == mealId select productMeal;
             productListBox.ItemsSource = productMeals;
+            dieterDBM.Dispose();
         }
 
         private void InitCombo()
         {
-            products = from product in dieterDBM.Products orderby product.Name select product;
+            dieterDBM = new DieterDBM();
+            var  products = from product in dieterDBM.Products orderby product.Name select product;
             productsComboBox.ItemsSource = products;
+            dieterDBM.Dispose();
         }
 
         private void AddProductButtonClick(object sender, RoutedEventArgs e)
@@ -74,11 +70,13 @@ namespace dieter.UserControls
 
         private void AddProductToMeal(double amount)
         {
+            dieterDBM = new DieterDBM();
+            ProductMeal productMeal = MakeProductMeal(amount);            
             var currentMeal = (from meal in dieterDBM.Meals where meal.Id == mealId select meal).First();
-            ProductMeal productMeal = MakeProductMeal(amount);
             currentMeal.ProductMeals.Add(productMeal);
             SumNutritionalContents(currentMeal);
             dieterDBM.SubmitChanges();
+            dieterDBM.Dispose();
             Clear();
             InitProductMealsList();
         }
@@ -112,7 +110,7 @@ namespace dieter.UserControls
 
         private ProductMeal MakeProductMeal(Double amount)
         {
-            Product product = (Product)productsComboBox.SelectedItem;
+            Product product = (Product)productsComboBox.SelectedItem;           
             var currentProduct = (from p in dieterDBM.Products where p.Id == product.Id select p).First();
             ProductMeal productMeal = new ProductMeal();
             if (currentProduct.IsUnit == 1)
@@ -148,6 +146,7 @@ namespace dieter.UserControls
         private void DeleteProductFromMealClick(object sender, RoutedEventArgs e)
         {
             int id = Utils.GetIdFromUGrid((UniformGrid)((Button)sender).Parent);
+            dieterDBM = new DieterDBM();
             ProductMeal removedProductMeal = (from productMeal in dieterDBM.ProductMeal where productMeal.Id == id select productMeal).Single();
             dieterDBM.ProductMeal.DeleteOnSubmit(removedProductMeal);
             dieterDBM.SubmitChanges();
@@ -155,21 +154,26 @@ namespace dieter.UserControls
             var currentMeal = (from meal in dieterDBM.Meals where meal.Id == mealId select meal).First();
             SumNutritionalContents(currentMeal);
             dieterDBM.SubmitChanges();
+            dieterDBM.Dispose();
             InitProductMealsList();
 
         }
 
         private void DeleteProductClick(object sender, RoutedEventArgs e)
         {
+            dieterDBM = new DieterDBM();
             Product product = (Product)productsComboBox.SelectedItem;
+            var deletedProduct = (from p in dieterDBM.Products where p.Id == product.Id select p).Single();
             try
             {
-                dieterDBM.Products.DeleteOnSubmit(product);
+                dieterDBM.Products.DeleteOnSubmit(deletedProduct);
                 dieterDBM.SubmitChanges();
+                dieterDBM.Dispose();
                 InitCombo();
             }
-            catch
+            catch(Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 MessageBox.Show("Produkt jest używany nie można usunąć");
             }
         }
