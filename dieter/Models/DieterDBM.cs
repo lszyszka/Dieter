@@ -12,7 +12,7 @@ namespace dieter.Models
 {
     class DieterDBM : DataContext
     {
-        public DieterDBM() : base(Properties.Settings.Default.DieterDBConnectionString)
+        public DieterDBM() : base(Properties.Settings.Default.DieterDBConnectionPath)
         {
         }
 

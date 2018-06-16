@@ -20,7 +20,7 @@ namespace dieter.DialogWindows
     /// </summary>
     public partial class ProductDialog : Window
     {
-        DieterDBM dieterDBM = new DieterDBM();
+        DieterDBM dieterDBM;
         Product newProduct = new Product();
 
         public ProductDialog()
@@ -59,9 +59,11 @@ namespace dieter.DialogWindows
                 }
                 else
                 {
+                    dieterDBM = new DieterDBM();
                     dieterDBM.Products.InsertOnSubmit(newProduct);
                     dieterDBM.SubmitChanges();
-                    MessageBox.Show("Dodano product.");
+                    dieterDBM.Dispose();
+                    MessageBox.Show("Dodano produkt.");
                     DialogResult = true;
                 }                
             }
